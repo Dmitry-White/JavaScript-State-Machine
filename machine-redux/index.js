@@ -1,12 +1,18 @@
 const machine = {
-  idle: {
-    click() {},
+  state: "idle",
+  transitions: {
+    idle: {
+      click() {},
+    },
+    fetching: {
+      success() {},
+      failure() {},
+    },
+    error: {
+      retry() {},
+    },
   },
-  fetching: {
-    success() {},
-    failure() {},
-  },
-  error: {
-    retry() {},
+  changeStateTo(state) {
+    this.state = state;
   },
 };
