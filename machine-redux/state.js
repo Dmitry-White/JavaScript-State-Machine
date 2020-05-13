@@ -2,27 +2,25 @@ const machine = {
   state: "idle",
   transitions: {
     idle: {
-      click() {
-        console.log(this);
+      async click() {
         this.changeStateTo("fetching");
-        console.log(this);
 
-        api
-          .getData()
-          .then((res) => {
-            try {
-              const data = JSON.parse(res);
-              this.dispatch("success", data);
-            } catch (error) {
-              this.dispatch("failure", error);
-            }
-          })
-          .catch((error) => this.dispatch("failure", error));
+        try {
+          const res = await api.getData();
+          const data = await res.json();
+          this.dispatch("success", data);
+        } catch (error) {
+          this.dispatch("failure", error);
+        }
       },
     },
     fetching: {
-      success() {},
-      failure() {},
+      success(data) {
+        console.log("Success: ", data);
+      },
+      failure(error) {
+        console.log("Failure: ", error);
+      },
     },
     error: {
       retry() {},
@@ -34,6 +32,7 @@ const machine = {
   dispatch(actionName, payload) {
     const actions = this.transitions[this.state];
     const action = actions[actionName];
+    console.log("Payload: ", payload);
 
     if (action) {
       action.apply(this, payload);
