@@ -3,6 +3,7 @@ const machine = {
   transitions: {
     idle: {
       async click() {
+        console.log("Click");
         this.changeStateTo("fetching");
 
         try {
@@ -17,13 +18,20 @@ const machine = {
     fetching: {
       success(data) {
         console.log("Success: ", data);
+        // render the data
+        this.changeStateTo("idle");
       },
       failure(error) {
         console.log("Failure: ", error);
+        // render the error
+        this.changeStateTo("error");
       },
     },
     error: {
-      retry() {},
+      retry() {
+        this.changeStateTo("idle");
+        this.dispatch("click");
+      },
     },
   },
   changeStateTo(state) {
