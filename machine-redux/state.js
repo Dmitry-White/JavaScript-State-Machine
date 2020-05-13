@@ -3,7 +3,21 @@ const machine = {
   transitions: {
     idle: {
       click() {
-        console.log("Clicked");
+        console.log(this);
+        this.changeStateTo("fetching");
+        console.log(this);
+
+        api
+          .getData()
+          .then((res) => {
+            try {
+              const data = JSON.parse(res);
+              this.dispatch("success", data);
+            } catch (error) {
+              this.dispatch("failure", error);
+            }
+          })
+          .catch((error) => this.dispatch("failure", error));
       },
     },
     fetching: {
