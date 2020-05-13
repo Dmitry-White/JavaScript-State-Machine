@@ -1,36 +1,37 @@
 const machine = {
-  state: "idle",
+  state: STATES.IDLE,
   transitions: {
-    idle: {
-      async click() {
-        console.log("Click");
-        this.changeStateTo("fetching");
+    [STATES.IDLE]: {
+      async [TRANSITIONS.CLICK](event) {
+        console.log(`${TRANSITIONS.CLICK}`, event);
+        this.changeStateTo(STATES.FETCHING);
 
         try {
           const res = await api.getData();
           const data = await res.json();
-          this.dispatch("success", data);
+          this.dispatch(TRANSITIONS.SUCCESS, data);
         } catch (error) {
-          this.dispatch("failure", error);
+          this.dispatch(TRANSITIONS.FAILURE, error);
         }
       },
     },
-    fetching: {
-      success(data) {
-        console.log("Success: ", data);
+    [STATES.FETCHING]: {
+      [TRANSITIONS.SUCCESS](data) {
+        console.log(`${TRANSITIONS.SUCCESS}`, data);
         // render the data
-        this.changeStateTo("idle");
+        this.changeStateTo(STATES.IDLE);
       },
-      failure(error) {
-        console.log("Failure: ", error);
+      [TRANSITIONS.FAILURE](error) {
+        console.log(`${TRANSITIONS.FAILURE}`, error);
         // render the error
-        this.changeStateTo("error");
+        this.changeStateTo(STATES.ERROR);
       },
     },
-    error: {
-      retry() {
-        this.changeStateTo("idle");
-        this.dispatch("click");
+    [STATES.ERROR]: {
+      [TRANSITIONS.RETRY](event) {
+        console.log(`${TRANSITIONS.RETRY}`, event);
+        this.changeStateTo(STATES.IDLE);
+        this.dispatch(TRANSITIONS.CLICK, event);
       },
     },
   },
@@ -40,10 +41,9 @@ const machine = {
   dispatch(actionName, payload) {
     const actions = this.transitions[this.state];
     const action = actions[actionName];
-    console.log("Payload: ", payload);
 
     if (action) {
-      action.apply(this, payload);
+      action.apply(this, [payload]);
     }
   },
 };
