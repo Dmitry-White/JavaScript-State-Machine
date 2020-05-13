@@ -15,4 +15,12 @@ const machine = {
   changeStateTo(state) {
     this.state = state;
   },
+  dispatch(actionName, payload) {
+    const actions = this.transitions[this.state];
+    const action = actions[actionName];
+
+    if (action) {
+      action.apply(this, payload);
+    }
+  },
 };
