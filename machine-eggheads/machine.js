@@ -1,39 +1,44 @@
 const createMachine = require("./factory");
+const { STATES, TRANSITIONS } = require("./constants");
 
 const machine = createMachine({
-  initialState: "off",
-  on: {
+  initialState: STATES.OFF,
+  [STATES.ON]: {
     actions: {
       onEnter() {
-        console.log("on: onEnter");
+        console.log(`${STATES.ON}: onEnter`);
       },
       onExit() {
-        console.log("on: onExit");
+        console.log(`${STATES.ON}: onExit`);
       },
     },
     transitions: {
-      switch: {
-        target: "off",
+      [TRANSITIONS.SWITCH]: {
+        target: STATES.OFF,
         action() {
-          console.log('transition action for "switch" in "on" state');
+          console.log(
+            `transition action for "${TRANSITIONS.SWITCH}" in "${STATES.ON}" state`
+          );
         },
       },
     },
   },
-  off: {
+  [STATES.OFF]: {
     actions: {
       onEnter() {
-        console.log("off: onEnter");
+        console.log(`${STATES.OFF}: onEnter`);
       },
       onExit() {
-        console.log("off: onExit");
+        console.log(`${STATES.OFF}: onExit`);
       },
     },
     transitions: {
-      switch: {
-        target: "on",
+      [TRANSITIONS.SWITCH]: {
+        target: STATES.ON,
         action() {
-          console.log('transition action for "switch" in "off" state');
+          console.log(
+            `transition action for "${TRANSITIONS.SWITCH}" in "${STATES.OFF}" state`
+          );
         },
       },
     },
