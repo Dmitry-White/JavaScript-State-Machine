@@ -1,3 +1,5 @@
+const machine = require("./machine");
+
 const initialState = machine.value;
 console.log(`current state: ${initialState}`); // current state: off
 

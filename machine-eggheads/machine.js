@@ -1,3 +1,5 @@
+const createMachine = require("./factory");
+
 const machine = createMachine({
   initialState: "off",
   on: {
@@ -37,3 +39,5 @@ const machine = createMachine({
     },
   },
 });
+
+module.exports = machine;
