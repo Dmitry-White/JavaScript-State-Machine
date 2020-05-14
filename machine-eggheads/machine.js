@@ -9,6 +9,14 @@ const machine = createMachine({
         console.log("on: onExit");
       },
     },
+    transitions: {
+      switch: {
+        target: "off",
+        action() {
+          console.log('transition action for "switch" in "on" state');
+        },
+      },
+    },
   },
   off: {
     actions: {
@@ -17,6 +25,14 @@ const machine = createMachine({
       },
       onExit() {
         console.log("off: onExit");
+      },
+    },
+    transitions: {
+      switch: {
+        target: "on",
+        action() {
+          console.log('transition action for "switch" in "off" state');
+        },
       },
     },
   },
