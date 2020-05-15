@@ -1,8 +1,11 @@
 import React from 'react';
 
+import stateMachine from './machine';
 import logo from './logo.svg';
 
 import './App.css';
+
+console.log(stateMachine.initialState);
 
 function App() {
   return (
