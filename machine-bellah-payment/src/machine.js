@@ -32,7 +32,9 @@ const stateMachine = Machine({
       }
     },
     success: {
-      type: 'final'
+      on: {
+        RESET: "idle"
+      }
     }
   }
 });
