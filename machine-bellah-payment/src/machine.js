@@ -5,7 +5,15 @@ const stateMachine = Machine({
   states: {
     idle: {
       on: {
-        SUBMIT: 'loading'
+        SUBMIT: [
+          {
+            target: 'loading',
+            cond: ({ state }) => state.name !== '' && state.card !== ''
+          },
+          {
+            target: 'error'
+          }
+        ]
       }
     },
     loading: {
@@ -17,7 +25,10 @@ const stateMachine = Machine({
     },
     error: {
       on: {
-        SUBMIT: 'loading'
+        SUBMIT: {
+          target: 'loading',
+          cond: ({ state }) => state.name !== '' && state.card !== ''
+        }
       }
     },
     success: {
