@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { fakePayment } from './utils';
 import stateMachine from './machine';
 
 import './App.css';
@@ -10,6 +11,12 @@ class App extends Component {
       machine: stateMachine.initialState
     });
   };
+
+  doPayment = () => {
+    return fakePayment()
+      .then(msg => this.transition('SUCCESS', { msg }))
+      .catch(msg => this.transition('ERROR', { msg }));
+  }
 
   runActions = (state) => {
     if (state.actions.length > 0) {
@@ -32,7 +39,7 @@ class App extends Component {
       machine: newState,
       msg: extState && extState.msg ? extState.msg : ""
     });
-  }
+  };
 
   render() {
     return (

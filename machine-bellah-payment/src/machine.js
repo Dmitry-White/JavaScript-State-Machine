@@ -9,6 +9,7 @@ const stateMachine = Machine({
       }
     },
     loading: {
+      entry: ['doPayment'],
       on: {
         ERROR: 'error',
         SUCCESS: 'success',
