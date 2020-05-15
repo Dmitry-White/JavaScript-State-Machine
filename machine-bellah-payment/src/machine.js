@@ -1,39 +1,41 @@
 import { Machine } from 'xstate';
 
+import { STATES, TRANSITIONS, ACTIONS } from './constants';
+
 const stateMachine = Machine({
-  initial: 'idle',
+  initial: STATES.IDLE,
   states: {
-    idle: {
+    [STATES.IDLE]: {
       on: {
-        SUBMIT: [
+        [TRANSITIONS.SUBMIT]: [
           {
-            target: 'loading',
+            target: STATES.LOADING,
             cond: ({ state }) => state.name !== '' && state.card !== ''
           },
           {
-            target: 'error'
+            target: STATES.ERROR
           }
         ]
       }
     },
-    loading: {
-      entry: ['doPayment'],
+    [STATES.LOADING]: {
+      entry: [ACTIONS.DO_PAYMENT],
       on: {
-        ERROR: 'error',
-        SUCCESS: 'success',
+        [TRANSITIONS.ERROR]: STATES.ERROR,
+        [TRANSITIONS.SUCCESS]: STATES.SUCCESS,
       }
     },
-    error: {
+    [STATES.ERROR]: {
       on: {
-        SUBMIT: {
-          target: 'loading',
+        [TRANSITIONS.SUBMIT]: {
+          target: STATES.LOADING,
           cond: ({ state }) => state.name !== '' && state.card !== ''
         }
       }
     },
-    success: {
+    [STATES.SUCCESS]: {
       on: {
-        RESET: "idle"
+        [TRANSITIONS.RESET]: STATES.IDLE
       }
     }
   }

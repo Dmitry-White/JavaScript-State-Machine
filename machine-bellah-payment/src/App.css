@@ -89,6 +89,12 @@ button {
   background-color: #f2dede;
 }
 
+.alert.loading {
+  border: 1px solid #ebe3cc;
+  color: #f0d646;
+  background-color: #f2ecde;
+}
+
 .alert.success {
   background-color: #dff0d8;
   border-color: #d0e9c6;

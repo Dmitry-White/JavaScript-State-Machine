@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import { fakePayment } from './utils';
 import stateMachine from './machine';
+import { STATES, TRANSITIONS, ACTIONS } from './constants';
 
 import './App.css';
 
@@ -18,10 +19,10 @@ class App extends Component {
     });
   };
 
-  doPayment = () => {
+  [ACTIONS.DO_PAYMENT] = () => {
     return fakePayment()
-      .then(msg => this.transition('SUCCESS', { msg }))
-      .catch(msg => this.transition('ERROR', { msg }));
+      .then(msg => this.transition(TRANSITIONS.SUCCESS, { msg }))
+      .catch(msg => this.transition(TRANSITIONS.ERROR, { msg }));
   }
 
   runActions = (state) => {
@@ -53,12 +54,21 @@ class App extends Component {
 
   submitForm = e => {
     e.preventDefault();
-    this.transition('SUBMIT');
+    this.transition(TRANSITIONS.SUBMIT);
   };
+
+  getLoadingMessage = () => {
+    const { machine } = this.state;
+    return machine.value === STATES.LOADING ? (
+      <div className="alert loading">
+        loading...
+      </div>
+    ) : null
+  }
 
   getErrorMessage = () => {
     const { machine, msg } = this.state;
-    return machine.value === "error" ? (
+    return machine.value === STATES.ERROR ? (
       <div className="alert error">
         {msg ? msg : "You must fill out all the form fields."}
       </div>
@@ -67,19 +77,19 @@ class App extends Component {
 
   getSuccessMessage = () => {
     const { machine, msg } = this.state;
-    return machine.value === "success" ? (
+    return machine.value === STATES.SUCCESS ? (
       <div className="alert success">{msg ? msg : null}</div>
     ) : null
   }
 
   getResetButton = () => {
     const { machine } = this.state;
-    return machine.value === "success" ? (
+    return machine.value === STATES.SUCCESS ? (
       <button
         id="ResetButton"
         className="btn-reset"
         type="button"
-        onClick={() => this.transition("RESET")}
+        onClick={() => this.transition(TRANSITIONS.RESET)}
       >
         Reset
       </button>
@@ -101,7 +111,7 @@ class App extends Component {
           </div>
 
           {this.getErrorMessage()}
-
+          {this.getLoadingMessage()}
           {this.getSuccessMessage()}
 
           <div className="form-body">
