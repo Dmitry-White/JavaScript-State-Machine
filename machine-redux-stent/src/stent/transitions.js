@@ -10,9 +10,9 @@ const submit = function* (state, credentials) {
   try {
     const user = yield call(Auth.login, credentials);
 
-    this[TRANSITIONS.SUCCESS](user);
+    state[TRANSITIONS.SUCCESS](user);
   } catch (error) {
-    this[TRANSITIONS.ERROR](error, credentials);
+    state[TRANSITIONS.ERROR](error, credentials);
   }
 };
 

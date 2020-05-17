@@ -8,7 +8,7 @@ const STATES = {
 
 const TRANSITIONS = {
   SUBMIT: 'submit',
-  SUCCESS: "success",
+  SUCCESS: 'success',
   ERROR: 'error',
   RETRY: 'retry',
   PROFILE: 'profile',
