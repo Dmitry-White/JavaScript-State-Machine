@@ -12,28 +12,28 @@ const reducer = (state = initialState, { type, payload }) => {
     case LOGIN:
       return {
         ...state,
-        requestInFlight: true,
+        loading: true,
         credentials: payload
       };
     case LOGIN_SUCCESSFUL:
       return {
         user: payload,
         error: null,
-        requestInFlight: false,
+        loading: false,
         credentials: null
       };
     case LOGIN_FAILED:
       return {
         ...state,
         error: payload,
-        requestInFlight: false
+        loading: false
       };
     case LOGOUT:
       return initialState;
     case TRY_AGAIN:
       return {
         ...state,
-        requestInFlight: true
+        loading: true
       }
     default:
       return state;
