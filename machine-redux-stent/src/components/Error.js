@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Link from './Link';
 
 const Error = ({ message, tryAgain }) => (

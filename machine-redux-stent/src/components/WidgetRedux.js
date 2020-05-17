@@ -5,9 +5,38 @@ import { loadingSelector, userSelector, errorSelector, userNameSelector, errorMe
 import { login, tryAgain, logout } from '../redux/actions';
 import { CONNECTION_ERROR } from '../core/constants';
 
+import Profile from './Profile';
+import Error from './Error';
+import LoginForm from './LoginForm';
+
 class Widget extends React.Component {
   render() {
+    const {
+      isLoading,
+      isSuccess,
+      isError,
+      isConnectionError,
+      name,
+      login,
+      tryAgain,
+      logout
+    } = this.props;
 
+    if (isLoading) {
+      return <p className='tac'>Loading. please wait.</p>;
+    } else if (isSuccess) {
+      return <Profile name={name} logout={logout} />;
+    } else if (isError) {
+      return isConnectionError ?
+        <Error
+          tryAgain={tryAgain}
+          message='Connection problem!' /> :
+        (<div>
+          <LoginForm submit={login} />
+          <p className='error'>Missing or invalid data.</p>
+        </div>)
+    }
+    return <LoginForm submit={login} />;
   }
 }
 
