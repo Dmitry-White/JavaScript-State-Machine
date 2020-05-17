@@ -16,14 +16,38 @@ const submit = function* (state, credentials) {
   }
 };
 
+const success = function (state, user) {
+  return { name: STATES.SUCCESS, user };
+};
+
+const error = function (state, error, credentials) {
+  return error.message === CONNECTION_ERROR ?
+    { name: STATES.TRY_AGAIN, credentials } :
+    { name: STATES.ERROR, error };
+};
+
+const tryAgain = function* (state) {
+  yield call(submit, state, state.credentials);
+}
+
 const transitions = {
   [STATES.IDLE]: {
     [TRANSITIONS.SUBMIT]: submit
   },
   [STATES.LOADING]: {
-    [TRANSITIONS.SUCCESS]: () => { },
-    [TRANSITIONS.ERROR]: () => { },
+    [TRANSITIONS.SUCCESS]: success,
+    [TRANSITIONS.ERROR]: error,
   },
+  [STATES.TRY_AGAIN]: {
+    [TRANSITIONS.TRY_AGAIN]: tryAgain
+  },
+  [STATES.ERROR]: {
+    [TRANSITIONS.SUBMIT]: submit
+  },
+  [STATES.SUCCESS]: {
+    [TRANSITIONS.PROFILE]: () => { },
+    [TRANSITIONS.LOGOUT]: STATES.IDLE
+  }
 };
 
 export default transitions;
