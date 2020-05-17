@@ -1,5 +1,11 @@
+import Error from './Error';
 import Link from './Link';
+import LoginForm from './LoginForm';
+import Profile from './Profile';
 
 export {
-  Link
+  Error,
+  Link,
+  LoginForm,
+  Profile,
 }
