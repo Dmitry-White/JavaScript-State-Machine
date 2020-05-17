@@ -1,3 +1,5 @@
+import { LOGIN, LOGIN_SUCCESSFUL, LOGOUT, LOGIN_FAILED, TRY_AGAIN } from './types';
+
 const initialState = {
   user: null,
   error: null,
@@ -7,6 +9,25 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case LOGIN:
+      return {
+        ...state,
+        requestInFlight: true,
+        credentials: payload
+      };
+    case LOGIN_SUCCESSFUL:
+      return {
+        user: payload,
+        error: null,
+        requestInFlight: false,
+        credentials: null
+      };
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        error: payload,
+        requestInFlight: false
+      };
     default:
       return state;
   }
