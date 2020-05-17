@@ -28,6 +28,13 @@ const reducer = (state = initialState, { type, payload }) => {
         error: payload,
         requestInFlight: false
       };
+    case LOGOUT:
+      return initialState;
+    case TRY_AGAIN:
+      return {
+        ...state,
+        requestInFlight: true
+      }
     default:
       return state;
   }
