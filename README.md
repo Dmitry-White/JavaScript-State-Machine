@@ -10,8 +10,12 @@ https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javas
 
 https://jonbellah.com/articles/intro-state-machines/
 
+## Getting from Redux to a state machine
+
+https://krasimirtsonev.com/blog/article/getting-from-redux-to-state-machine-with-stent
 
 ### Redux vs XState
+
 - Redux is essentially a state container where events (called actions in Redux) are sent to a reducer which update state.
 - XState is also a state container, but it separates finite state (e.g., "loading", "success") from "infinite state", or context (e.g., items: [...]).
 - Redux does not dictate how you define your reducers. They are plain functions that return the next state given the current state and event (action).
